@@ -4,6 +4,17 @@ import numpy as np
 import cv2
 import paho.mqtt.client as mqtt
 
+LOCAL_MQTT_HOST="face-detector-service"
+LOCAL_MQTT_PORT= 1883
+LOCAL_MQTT_TOPIC="test_topic"
+
+def on_connect_local(client, userdata, flags, rc):
+        print("connected to local broker with rc: " + str(rc))
+
+local_mqttclient = mqtt.Client()
+local_mqttclient.on_connect = on_connect_local
+local_mqttclient.connect(LOCAL_MQTT_HOST, LOCAL_MQTT_PORT, 60)
+
 # the index depends on your camera setup and which one is your USB camera.
 # you may need to change to 1 or 2 depending on your machine.
 cap = cv2.VideoCapture(0) # with macOS and an iphone, this might be your iphone camera
@@ -21,11 +32,12 @@ while(True):
         face = gray[x:x+w, y:y+h]
         rc, png = cv2.imencode('.png', face)
         msg = png.tobytes()
+        local_mqttclient.publish(LOCAL_MQTT_TOPIC, msg)
 
     # Display the resulting frame
-    cv2.imshow('frame', gray)
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
+    # cv2.imshow('frame', gray)
+    # if cv2.waitKey(1) & 0xFF == ord('q'):
+        # break
 
 # When everything done, release the capture
 cap.release()
