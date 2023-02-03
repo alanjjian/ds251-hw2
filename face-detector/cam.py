@@ -13,14 +13,21 @@ def on_connect_local(client, userdata, flags, rc):
 
 local_mqttclient = mqtt.Client()
 local_mqttclient.on_connect = on_connect_local
-local_mqttclient.connect(LOCAL_MQTT_HOST, LOCAL_MQTT_PORT, 60)
+
+local_mqttclient.loop_start()
+connected = False
+try:
+    local_mqttclient.connect(LOCAL_MQTT_HOST, LOCAL_MQTT_PORT, 60)
+    connected = True
+except:
+    print("Failed to connect, trying again")
 
 # the index depends on your camera setup and which one is your USB camera.
 # you may need to change to 1 or 2 depending on your machine.
 cap = cv2.VideoCapture(0) # with macOS and an iphone, this might be your iphone camera
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
-while(True):
+while(connected==True):
     # Capture frame-by-frame
     ret, frame = cap.read()
 
@@ -42,3 +49,5 @@ while(True):
 # When everything done, release the capture
 cap.release()
 cv2.destroyAllWindows()
+local_mqttclient.loop_stop()
+local_mqttclient.disconnect()

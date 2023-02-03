@@ -5,15 +5,15 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: mosquitto-broker
+      app: mosquitto
   replicas: 1 # tells deployment to run 1 pods matching the template
   template:
     metadata:
       labels:
-        app: mosquitto-broker
+        app: mosquitto
     spec:
       containers:
-      - name: mosquitto-broker
+      - name: mosquitto
         image: alanjian131/hw2-local-broker:v1
         ports:
         - containerPort: 1883
