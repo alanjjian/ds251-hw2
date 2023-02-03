@@ -2,7 +2,9 @@
 We created 
 
 5 points for using a user defined network in the cloud (automatic if you decide to use k8s on the cloud side)
+
 10 points for using Kubernetes on your Edge VM
+
 10 points for explaining the MQTT topics and the QoS that you used.
 Topics: 
 -faces: from face_detector to broker
