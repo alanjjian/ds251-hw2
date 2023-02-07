@@ -14,8 +14,6 @@ def on_connect_local(client, userdata, flags, rc):
 local_mqttclient = mqtt.Client()
 local_mqttclient.on_connect = on_connect_local
 
-local_mqttclient.loop_start()
-connected = False
 try:
     local_mqttclient.connect(LOCAL_MQTT_HOST, LOCAL_MQTT_PORT, 60)
     connected = True
@@ -27,7 +25,15 @@ except:
 cap = cv2.VideoCapture(0) # with macOS and an iphone, this might be your iphone camera
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
-while(connected==True):
+connected = False
+while(True):
+    if not connected:
+        try:
+            local_mqttclient.connect(LOCAL_MQTT_HOST, LOCAL_MQTT_PORT, 60)
+            connected = True
+        except:
+            print("Failed to connect, trying again")
+
     # Capture frame-by-frame
     ret, frame = cap.read()
 
@@ -39,15 +45,14 @@ while(connected==True):
         face = gray[x:x+w, y:y+h]
         rc, png = cv2.imencode('.png', face)
         msg = png.tobytes()
-        local_mqttclient.publish(LOCAL_MQTT_TOPIC, msg)
+        if connected:
+            local_mqttclient.publish(LOCAL_MQTT_TOPIC, msg)
 
     # Display the resulting frame
     # cv2.imshow('frame', gray)
-    # if cv2.waitKey(1) & 0xFF == ord('q'):
-        # break
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
 
 # When everything done, release the capture
 cap.release()
 cv2.destroyAllWindows()
-local_mqttclient.loop_stop()
-local_mqttclient.disconnect()

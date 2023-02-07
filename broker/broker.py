@@ -21,8 +21,11 @@ def on_message(client,userdata, msg):
 
 local_mqttclient = mqtt.Client()
 local_mqttclient.on_connect = on_connect_local
-local_mqttclient.connect(LOCAL_MQTT_HOST, LOCAL_MQTT_INBOUND, 60)
 
+try:
+    local_mqttclient.connect(LOCAL_MQTT_HOST, LOCAL_MQTT_INBOUND, 60)
+except:
+    print("yikes!")
 # remote_mqttclient = mqtt.Client()
 # remote_mqttclient.on_connect = on_connect_local
 # remote_mqttclient.connect(LOCAL_MQTT_HOST, LOCAL_MQTT_OUTBOUND, 60)
