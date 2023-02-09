@@ -5,7 +5,6 @@ metadata:
   labels:
     run: mosquitto
 spec:
-  type: NodePort
   ports:
   - port: 1883
     protocol: TCP
