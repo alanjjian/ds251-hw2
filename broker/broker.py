@@ -1,7 +1,7 @@
 import paho.mqtt.client as mqtt
 
 
-LOCAL_MQTT_HOST="localhost"
+LOCAL_MQTT_HOST="face-detector-service"
 LOCAL_MQTT_INBOUND = 1883
 LOCAL_MQTT_OUTBOUND = 1884
 LOCAL_MQTT_TOPIC= "test_topic"
@@ -24,7 +24,6 @@ local_mqttclient.on_connect = on_connect_local
 
 try:
     local_mqttclient.connect(LOCAL_MQTT_HOST, LOCAL_MQTT_INBOUND, 60)
-    print("connected!")
 except:
     print("yikes!")
 # remote_mqttclient = mqtt.Client()

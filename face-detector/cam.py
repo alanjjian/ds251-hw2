@@ -4,7 +4,7 @@ import numpy as np
 import cv2
 import paho.mqtt.client as mqtt
 
-LOCAL_MQTT_HOST="localhost"
+LOCAL_MQTT_HOST="face-detector-service"
 LOCAL_MQTT_PORT= 1883
 LOCAL_MQTT_TOPIC="test_topic"
 
@@ -31,8 +31,9 @@ while(True):
         try:
             local_mqttclient.connect(LOCAL_MQTT_HOST, LOCAL_MQTT_PORT, 60)
             connected = True
-        except Exception as e:
-            print(e)
+        except:
+            print("Failed to connect, trying again")
+
     # Capture frame-by-frame
     ret, frame = cap.read()
 
@@ -45,7 +46,6 @@ while(True):
         rc, png = cv2.imencode('.png', face)
         msg = png.tobytes()
         if connected:
-            print("was connected")
             local_mqttclient.publish(LOCAL_MQTT_TOPIC, msg)
 
     # Display the resulting frame

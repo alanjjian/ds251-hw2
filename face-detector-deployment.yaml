@@ -12,7 +12,6 @@ spec:
       labels:
         app: mosquitto
     spec:
-      hostNetwork: true
       containers:
       - name: face-detector
         volumeMounts:
