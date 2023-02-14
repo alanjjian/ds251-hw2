@@ -1,10 +1,3 @@
-65 points for a containerized end to end application 
-We created 
-
-5 points for using a user defined network in the cloud (automatic if you decide to use k8s on the cloud side)
-
-
-
 Explaining the MQTT topics and the QoS that you used.
 Topics: 
 - test_topic: we never got around to changing the topic names. This is OK but was a little annoying to debug. All messages are passed on this topic.
