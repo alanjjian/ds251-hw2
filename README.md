@@ -6,6 +6,6 @@ MQTT Topics:
 
 Storing your faces in publicly reachable object storage or submitting them with your HW.
 
-We had some issues getting a link to S3 so see the screenshot in `hw2-s3-screenshot.jpg` to see that images are in S3. An example image can be found in the repo. 
+We had some issues getting a link to S3 so see the screenshot in `hw2-s3-screenshot.jpg` to see that images are in S3. Three example face images can be found in the repo. 
 
 The instructions for this homework submission were confusing. We hope this readme is sufficient. Please let us know if it is not.
